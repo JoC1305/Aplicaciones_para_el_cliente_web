@@ -1,0 +1,51 @@
+/* estilos.css - básico y legible */
+:root{
+  --max-width:1100px;
+  --accent:#0b76d1;
+  --bg:#f6f6f6;
+  --text:#222;
+  --muted:#555;
+  --radius:10px;
+}
+
+*{box-sizing:border-box}
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--text);
+  background:var(--bg);
+  margin:0;
+  line-height:1.4;
+}
+.container{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:1rem;
+}
+.site-header{
+  background:#fff;
+  border-bottom:1px solid #e1e1e1;
+}
+.site-header .container{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  justify-content:space-between;
+}
+.logo img{height:48px}
+.nav{list-style:none;margin:0;padding:0;display:flex;gap:1rem}
+.nav a{display:inline-block;padding:.5rem .6rem;text-decoration:none;color:var(--text)}
+.hero{padding:2.5rem 0;background:linear-gradient(90deg,#fff,#eef8ff)}
+.hero h1{margin:0 0 .5rem;font-size:1.8rem}
+.btn{background:var(--accent);color:#fff;padding:.6rem 1rem;border-radius:8px;text-decoration:none;display:inline-block}
+.grid-cards, .grid-products{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.card, .producto{background:#fff;padding:1rem;border-radius:var(--radius);box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:left}
+.card img, .producto img{width:100%;height:150px;object-fit:cover;border-radius:6px}
+.site-footer{background:#fff;border-top:1px solid #e1e1e1;padding:1rem 0;margin-top:1rem}
+label{display:block;margin-top:.6rem}
+input[type="text"], input[type="email"], textarea{
+  width:100%;padding:.6rem;border:1px solid #ccc;border-radius:6px;margin-top:.25rem;
+}
+@media (max-width:600px){
+  .site-header .container{flex-direction:column;align-items:flex-start}
+  .nav{flex-wrap:wrap}
+}
