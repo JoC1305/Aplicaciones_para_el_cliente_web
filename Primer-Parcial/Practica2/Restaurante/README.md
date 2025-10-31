@@ -36,6 +36,5 @@ Carpetas:
 - Implementación: HTML5 semántico y CSS básico.
 - Revisión: pruebas de navegación, validación HTML y accesibilidad.
 
-## Conclusiones individuales
-(Cada integrante escribe una breve conclusión sobre su aporte y aprendizaje)
+
 
