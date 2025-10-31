@@ -1,4 +1,4 @@
-# ElectroPlus - Tienda de productos electrónicos
+# Il capocannoniere - Restaurante
 
 ## Integrantes y contribuciones
 - Jostin Romero (GitHub: @Uleam-Jost) — Página: index.html, estilos.css, imágenes.
@@ -35,6 +35,7 @@ Carpetas:
 - Planificación: estructura de información y asignación de páginas.
 - Implementación: HTML5 semántico y CSS básico.
 - Revisión: pruebas de navegación, validación HTML y accesibilidad.
+
 
 
 
