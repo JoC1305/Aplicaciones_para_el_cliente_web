@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="./style/design.css">
+</head>
+<body>
+    <header><h1>Flashcards Manager</h1></header>
+    <div class="container">
+        <div class="toolbar">
+            <button id="createBtn" class="btn">Create New Flashcard</button>
+            <button id="startSessionBtn" class="btn">Start Study Session</button>
+        </div>
+        <div style="text-align:center;margin-bottom:12px">
+            <input id="searchInput" type="search" placeholder="Search flashcards..." />
+        </div>
+        <table id="cardsTable">
+            <thead>
+                <tr><th>Image</th><th>Question</th><th>Answer</th><th>Categories</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script type="module">
+        import entidades, { getAll, getById, añadirFlashcard, updateById, deleteById, crearSesionEstudio } from './utils/crud.js';
+
+        const $ = sel => document.querySelector(sel);
+        const placeholder = 'https://via.placeholder.com/260x160.png?text=Image';
+
+        function renderTable(filter = '') {
+            const rows = getAll('flashcards') || [];
+            const catMap = (getAll('categoria') || []).reduce((m,c)=>{ m[c.id]=c.nombre; return m; }, {});
+            const tbody = $('#cardsTable tbody');
+            tbody.innerHTML = '';
+            rows.filter(r => {
+                const q = (r.pregunta||'') + ' ' + (r.respuesta||'');
+                return q.toLowerCase().includes(filter.toLowerCase());
+            }).forEach(card => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${card.img ? `<img src="${card.img}" alt="">` : `<img src="${placeholder}" alt="">`}</td>
+                    <td>${card.pregunta ?? ''}</td>
+                    <td>${card.respuesta ?? ''}</td>
+                    <td>${(card.categoriaId||[]).map(id=>`<span class="badge">${catMap[id]??id}</span>`).join(' ')}</td>
+                    <td>
+                        <button data-id="${card.id}" class="edit">Edit</button>
+                        <button data-id="${card.id}" class="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        $('#searchInput').addEventListener('input', e => renderTable(e.target.value));
+        $('#createBtn').addEventListener('click', () => {
+            const pregunta = prompt('Pregunta:'); if (!pregunta) return;
+            const respuesta = prompt('Respuesta:'); if (!respuesta) return;
+            añadirFlashcard({ pregunta, respuesta, img: '' });
+            renderTable($('#searchInput').value);
+        });
+        $('#cardsTable tbody').addEventListener('click', ev => {
+            const t = ev.target;
+            if (t.matches('button.edit')) {
+                const id = t.dataset.id; const card = getById('flashcards', id);
+                const p = prompt('Editar pregunta:', card?.pregunta ?? '') ?? card?.pregunta;
+                const r = prompt('Editar respuesta:', card?.respuesta ?? '') ?? card?.respuesta;
+                updateById('flashcards', id, { pregunta: p, respuesta: r });
+                renderTable($('#searchInput').value);
+            }
+            if (t.matches('button.delete')) {
+                const id = t.dataset.id;
+                if (!confirm('Eliminar tarjeta ' + id + '?')) return;
+                deleteById('flashcards', id);
+                renderTable($('#searchInput').value);
+            }
+        });
+
+        renderTable();
+    </script>
+</body>
+</html>
